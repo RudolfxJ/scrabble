@@ -44,6 +44,8 @@ To clone the repository and navigate into the project directory, use the followi
 
 `python3 main.py`
 
-## Creating an executable
+## Creating an executable on Windows
 
 `pyinstaller --onefile main.py`
+
+locate `main.exe` in the `dist` folder
