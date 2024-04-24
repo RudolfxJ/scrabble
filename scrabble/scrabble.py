@@ -1,6 +1,6 @@
 import random
 from typing import Dict, List, Optional
-from utility import fetch_sort_and_save_words_by_length as get_sorted_words
+from scrabble.utility import fetch_sort_and_save_words_by_length as get_sorted_words
 
 def start_scrabble(input_string: str) -> str:
     """

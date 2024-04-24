@@ -2,7 +2,7 @@
 # This script takes a user input sentence and modifies it using the start_scrabble function
 # from the scrabble module, then prints out the modified sentence.
 
-from scrabble import start_scrabble
+from scrabble.scrabble import start_scrabble
 
 def main():
     """Main function to modify and print a user-entered sentence."""
