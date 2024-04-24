@@ -17,7 +17,7 @@ def fetch_sort_and_save_words_by_length(url):
         - Writes to a file named 'words_sorted.json' in the current directory.
 
     Returns:
-        None
+        bool: True if the words were successfully sorted and saved to the file, False otherwise.
 
     Raises:
         requests.exceptions.RequestException: If an error occurs during the network request.
@@ -36,14 +36,26 @@ def fetch_sort_and_save_words_by_length(url):
 
     sorted_words = {}
     for word in words:
+        if not word:
+            continue
         word_length = len(word)
-        if word_length in sorted_words:
-            sorted_words[word_length].append(word)
+        first_letter = word[0]
+
+        if first_letter in sorted_words:
+            if word_length in sorted_words[first_letter]:
+                sorted_words[first_letter][word_length].append(word)
+            else:
+                sorted_words[first_letter][word_length] = [word]
         else:
-            sorted_words[word_length] = [word]
+            sorted_words[first_letter] = {
+                word_length: [word]
+            }
+
 
     try:
         with open("words_sorted.json", "w") as f:
             json.dump(sorted_words, f, indent=4)
+        return sorted_words
     except IOError as e:
         print(f"Error writing to file: {e}")
+        raise Exception(f"Error creating file: {e}")
