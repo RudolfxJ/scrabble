@@ -1,8 +1,13 @@
 import requests
 import json
 import os
+from typing import Dict, Optional
+from requests.exceptions import RequestException
 
-def fetch_sort_and_save_words_by_length(url: str, sorted_file_name:str=None) -> dict: 
+def fetch_sort_and_save_words_by_length(
+        url: str, 
+        sorted_file_name: Optional[str] = "words_sorted.json"
+    ) -> Optional[Dict[str, Dict[int, list]]]:
     """
     Fetches a list of words from a specified URL, sorts them by their first letter and length,
     and then saves the sorted list to a JSON file.
@@ -43,28 +48,27 @@ def fetch_sort_and_save_words_by_length(url: str, sorted_file_name:str=None) -> 
         print(f"Error fetching words from URL: {e}")
         raise
 
-    sorted_words = {}
+    # Sort words
+    sorted_words: Dict[str, Dict[int, list]] = {}
     for word in words:
         if not word:
             continue
         word_length = len(word)
-        first_letter = word[0]
+        first_letter = word[0].lower()  # Normalize to lowercase
 
-        if first_letter in sorted_words:
-            if word_length in sorted_words[first_letter]:
-                sorted_words[first_letter][word_length].append(word)
-            else:
-                sorted_words[first_letter][word_length] = [word]
-        else:
-            sorted_words[first_letter] = {
-                word_length: [word]
-            }
+        if first_letter not in sorted_words:
+            sorted_words[first_letter] = {}
+        if word_length not in sorted_words[first_letter]:
+            sorted_words[first_letter][word_length] = []
 
+        sorted_words[first_letter][word_length].append(word)
 
+    # Save to JSON file for caching
     try:
-        with open("words_sorted.json", "w") as f:
-            json.dump(sorted_words, f, indent=4)
-        return sorted_words
+        with open(sorted_file_name, "w") as file:
+            json.dump(sorted_words, file, indent=4)
     except IOError as e:
         print(f"Error writing to file: {e}")
-        raise e
+        raise
+
+    return sorted_words
