@@ -29,7 +29,7 @@ def fetch_sort_and_save_words_by_length(url):
     try:
         response = requests.get(words_url)
         response.raise_for_status()  # Raises an HTTPError for bad responses
-        words = response.text.split("\n")
+        words = response.text.replace('\r\n', '\n').split('\n') # Fix for both windows and linux
     except requests.exceptions.RequestException as e:
         print(f"Error fetching words from URL: {e}")
         return
