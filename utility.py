@@ -31,15 +31,17 @@ def fetch_sort_and_save_words_by_length(url: str, sorted_file_name:str=None) -> 
         except FileNotFoundError:
             print("The file was not found and will be created.")
 
-    words_url = url
-    
+
+    print("Fetching, sorting and caching words...")
+
+    # Fetch words from the URL
     try:
-        response = requests.get(words_url)
+        response = requests.get(url)
         response.raise_for_status()  # Raises an HTTPError for bad responses
-        words = response.text.replace('\r\n', '\n').split('\n') # Fix for both windows and linux
-    except requests.exceptions.RequestException as e:
+        words = response.text.splitlines()  # Robust splitting of lines
+    except RequestException as e:
         print(f"Error fetching words from URL: {e}")
-        raise e
+        raise
 
     sorted_words = {}
     for word in words:
