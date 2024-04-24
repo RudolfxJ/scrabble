@@ -19,12 +19,12 @@ def fetch_sort_and_save_words_by_length(url: str, sorted_file_name:str=None) -> 
         IOError: If an error occurs while writing to the file.
         json.JSONDecodeError: If an existing JSON file is not in a valid JSON format.
     """
-
-    # 1st check if file exists and is json readable
+    
+    # Check if the file exists and is JSON readable
     if sorted_file_name and os.path.isfile(sorted_file_name):
         try:
-            with open(sorted_file_name, 'r') as f:
-                sorted_words = json.load(f)
+            with open(sorted_file_name, 'r') as file:
+                sorted_words = json.load(file)
             return sorted_words
         except json.JSONDecodeError:
             print("The file is not in a valid JSON format, and will be re-created.")
