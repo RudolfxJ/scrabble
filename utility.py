@@ -7,21 +7,15 @@ def fetch_sort_and_save_words_by_length(url: str, sorted_file_name:str=None) -> 
     Fetches a list of words from a specified URL, sorts them by their first letter and length,
     and then saves the sorted list to a JSON file.
 
-    The function retrieves words from a predefined URL where words are stored
-    in plain text format, one per line. It then categorizes these words into
-    a dictionary where the keys are the first letters of the words, and the values are dictionaries
-    with keys as word lengths and values as lists of words of that length. Finally, it serializes
-    this dictionary into a JSON file with a name provided by the 'sorted_file_name' parameter.
-
-    Side Effects:
-        - Makes a network request to the specified URL.
-        - Writes to a file in the current directory with the name provided by 'sorted_file_name'.
+    Args:
+        url (str): The URL from which to fetch the words.
+        sorted_file_name (Optional[str]): The name of the file to save the sorted words. Defaults to "words_sorted.json".
 
     Returns:
-        dict: A dictionary containing sorted words if successful, None otherwise.
+        Optional[Dict[str, Dict[int, list]]]: A dictionary containing sorted words if successful, None otherwise.
 
     Raises:
-        requests.exceptions.RequestException: If an error occurs during the network request.
+        RequestException: If an error occurs during the network request.
         IOError: If an error occurs while writing to the file.
         json.JSONDecodeError: If an existing JSON file is not in a valid JSON format.
     """
