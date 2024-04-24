@@ -9,8 +9,14 @@ def main():
     try:
         input_string = input("Enter a sentence: ")
         if input_string:
-            output_string = start_scrabble(input_string)
-            print(f"Modified sentence: {output_string}")
+            while True:
+                output_string = start_scrabble(input_string)
+                print(f"\nNew randomized sentence: {output_string}\n")
+                user_choice = input("Are you satisfied with the result? (yes/no):\n")
+                if user_choice.lower() == 'yes':
+                    break
+                else:
+                    print("Re-randomizing the sentence...")
         else:
             print("No sentence entered. Exiting...")
     except Exception as e:
